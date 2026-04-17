@@ -3,26 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maryland AV Delay Dashboard</title>
+<title>Maryland Autonomous Vehicle Policy Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #1c2230;
-    --border: #30363d;
-    --text: #e6edf3;
-    --muted: #8b949e;
-    --accent: #f85149;
-    --accent2: #ff7b72;
-    --gold: #d29922;
-    --gold2: #e3b341;
-    --green: #3fb950;
-    --blue: #58a6ff;
-    --md-red: #cc0000;
-    --md-gold: #F0AB00;
+    --bg:        #f7f5f0;
+    --surface:   #ffffff;
+    --surface2:  #f0ede6;
+    --border:    #ddd8cc;
+    --text:      #1c1916;
+    --muted:     #6b6558;
+    --md-red:    #c41230;
+    --md-gold:   #c89520;
+    --md-black:  #1c1916;
+    --red-lt:    rgba(196,18,48,0.07);
+    --gold-lt:   rgba(200,149,32,0.1);
+    --green:     #2e7d32;
+    --blue:      #1565c0;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,86 +31,72 @@
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.65;
     overflow-x: hidden;
   }
 
   /* HEADER */
   header {
-    background: linear-gradient(135deg, #0d1117 0%, #1a0a0a 50%, #0d1117 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 0;
+    background: var(--md-red);
     position: relative;
-    overflow: hidden;
   }
 
-  header::before {
+  header::after {
     content: '';
-    position: absolute;
-    top: -50%;
-    left: -20%;
-    width: 60%;
-    height: 200%;
-    background: radial-gradient(ellipse, rgba(204,0,0,0.08) 0%, transparent 70%);
-    pointer-events: none;
+    display: block;
+    height: 5px;
+    background: repeating-linear-gradient(90deg,
+      var(--md-gold) 0, var(--md-gold) 50%,
+      var(--md-black) 50%, var(--md-black) 100%);
+    background-size: 36px 100%;
   }
 
   .header-inner {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 3rem 2rem 2.5rem;
-    position: relative;
-    z-index: 1;
+    padding: 2.5rem 2rem 2rem;
   }
 
   .state-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(204,0,0,0.15);
-    border: 1px solid rgba(204,0,0,0.4);
-    color: var(--accent2);
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.88);
     font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
+    font-size: 0.67rem;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
-    padding: 0.3rem 0.7rem;
+    padding: 0.28rem 0.65rem;
     border-radius: 3px;
-    margin-bottom: 1.25rem;
-  }
-
-  .state-badge::before {
-    content: '▲';
-    font-size: 0.6rem;
+    margin-bottom: 1rem;
   }
 
   h1 {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(1.9rem, 4.5vw, 3.1rem);
     line-height: 1.1;
-    color: var(--text);
-    margin-bottom: 1rem;
+    color: #fff;
+    margin-bottom: 0.75rem;
     letter-spacing: -0.01em;
   }
 
-  h1 em {
-    font-style: italic;
-    color: var(--accent2);
-  }
+  h1 em { font-style: italic; color: var(--md-gold); }
 
   .header-sub {
-    color: var(--muted);
-    font-size: 1rem;
-    max-width: 600px;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.95rem;
+    max-width: 640px;
     font-weight: 300;
+    line-height: 1.6;
   }
 
-  /* HERO COUNTER */
+  /* COUNTER STRIP */
   .counter-section {
-    background: linear-gradient(180deg, #1a0a0a 0%, var(--surface) 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 3rem 2rem;
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 2.5rem 2rem;
   }
 
   .counter-inner {
@@ -119,91 +104,78 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 2.5rem;
     align-items: center;
   }
 
-  @media (max-width: 700px) {
-    .counter-inner { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 680px) { .counter-inner { grid-template-columns: 1fr; } }
 
   .counter-label {
     font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
+    font-size: 0.67rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.5rem;
+    color: var(--md-red);
+    margin-bottom: 0.35rem;
     font-weight: 500;
   }
 
   .counter-big {
     font-family: 'DM Serif Display', serif;
-    font-size: clamp(4rem, 12vw, 8rem);
+    font-size: clamp(3.8rem, 10vw, 7rem);
     line-height: 1;
-    color: var(--accent);
+    color: var(--md-red);
     letter-spacing: -0.03em;
-    text-shadow: 0 0 60px rgba(248,81,73,0.3);
-    transition: opacity 0.15s;
   }
 
   .counter-desc {
     color: var(--muted);
-    font-size: 0.85rem;
-    margin-top: 0.75rem;
+    font-size: 0.81rem;
+    margin-top: 0.6rem;
     max-width: 380px;
-    line-height: 1.5;
+    line-height: 1.55;
   }
 
-  .counter-desc a {
-    color: var(--blue);
-    text-decoration: none;
-  }
-
+  .counter-desc a { color: var(--blue); text-decoration: none; }
   .counter-desc a:hover { text-decoration: underline; }
 
-  .counter-right {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
+  .counter-right { display: flex; flex-direction: column; gap: 0.9rem; }
 
   .stat-card {
-    background: var(--surface2);
+    background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 1.25rem 1.5rem;
+    padding: 1.05rem 1.3rem;
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 0.9rem;
   }
 
   .stat-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    width: 32px; height: 32px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
     flex-shrink: 0;
-    margin-top: 2px;
+    margin-top: 3px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 600;
   }
 
-  .stat-icon.red { background: rgba(248,81,73,0.15); }
-  .stat-icon.gold { background: rgba(210,153,34,0.15); }
+  .stat-icon.red  { background: var(--red-lt);  color: var(--md-red); }
+  .stat-icon.gold { background: var(--gold-lt); color: var(--md-gold); }
 
   .stat-val {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.75rem;
+    font-size: 1.55rem;
     color: var(--text);
     line-height: 1.1;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.12rem;
   }
 
-  .stat-val span { color: var(--muted); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; }
-
-  .stat-desc { color: var(--muted); font-size: 0.8rem; }
+  .stat-desc { color: var(--muted); font-size: 0.77rem; line-height: 1.4; }
 
   /* MAIN */
   main {
@@ -216,475 +188,467 @@
 
   .section-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.75rem;
-    margin-bottom: 0.4rem;
+    font-size: 1.6rem;
+    margin-bottom: 0.25rem;
     color: var(--text);
   }
 
   .section-sub {
     color: var(--muted);
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
+    font-size: 0.862rem;
+    margin-bottom: 1.65rem;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 3rem 0;
   }
 
   /* TIMELINE */
   .timeline {
     position: relative;
-    padding-left: 2.5rem;
+    padding-left: 2.4rem;
   }
 
   .timeline::before {
     content: '';
     position: absolute;
-    left: 0.6rem;
+    left: 0.55rem;
     top: 0.5rem;
     bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--md-red), var(--border) 80%, transparent);
+    width: 2px;
+    background: linear-gradient(to bottom, var(--md-red) 0%, var(--border) 85%, transparent);
   }
 
   .tl-item {
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: 1.85rem;
     opacity: 0;
-    transform: translateX(-10px);
-    animation: fadeIn 0.5s ease forwards;
+    transform: translateX(-6px);
+    animation: fadein 0.4s ease forwards;
   }
 
-  .tl-item:nth-child(1) { animation-delay: 0.05s; }
-  .tl-item:nth-child(2) { animation-delay: 0.1s; }
-  .tl-item:nth-child(3) { animation-delay: 0.15s; }
-  .tl-item:nth-child(4) { animation-delay: 0.2s; }
-  .tl-item:nth-child(5) { animation-delay: 0.25s; }
-  .tl-item:nth-child(6) { animation-delay: 0.3s; }
-  .tl-item:nth-child(7) { animation-delay: 0.35s; }
+  .tl-item:nth-child(1)  { animation-delay: 0.04s; }
+  .tl-item:nth-child(2)  { animation-delay: 0.08s; }
+  .tl-item:nth-child(3)  { animation-delay: 0.12s; }
+  .tl-item:nth-child(4)  { animation-delay: 0.16s; }
+  .tl-item:nth-child(5)  { animation-delay: 0.20s; }
+  .tl-item:nth-child(6)  { animation-delay: 0.24s; }
+  .tl-item:nth-child(7)  { animation-delay: 0.28s; }
+  .tl-item:nth-child(8)  { animation-delay: 0.32s; }
+  .tl-item:nth-child(9)  { animation-delay: 0.36s; }
 
-  @keyframes fadeIn {
-    to { opacity: 1; transform: translateX(0); }
-  }
+  @keyframes fadein { to { opacity: 1; transform: translateX(0); } }
 
   .tl-dot {
     position: absolute;
-    left: -2.5rem;
-    top: 0.3rem;
-    width: 14px;
-    height: 14px;
+    left: -2.4rem;
+    top: 0.35rem;
+    width: 14px; height: 14px;
     border-radius: 50%;
     border: 2px solid var(--border);
-    background: var(--bg);
+    background: var(--surface);
   }
 
-  .tl-dot.active {
-    border-color: var(--accent);
-    background: var(--accent);
-    box-shadow: 0 0 12px rgba(248,81,73,0.5);
-  }
-
-  .tl-dot.warn {
-    border-color: var(--gold);
-    background: var(--gold);
-    box-shadow: 0 0 12px rgba(210,153,34,0.4);
-  }
+  .tl-dot.closed { border-color: var(--md-red);  background: var(--md-red);  }
+  .tl-dot.warn   { border-color: var(--md-gold); background: var(--md-gold); }
+  .tl-dot.neutral{ border-color: var(--muted);   background: var(--bg); }
 
   .tl-year {
     font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.67rem;
     letter-spacing: 0.1em;
     color: var(--muted);
     text-transform: uppercase;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.12rem;
   }
 
-  .tl-title {
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 0.3rem;
-    font-size: 1rem;
-  }
+  .tl-title { font-weight: 600; color: var(--text); margin-bottom: 0.28rem; font-size: 0.96rem; }
+  .tl-body  { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
 
-  .tl-body { color: var(--muted); font-size: 0.875rem; line-height: 1.5; }
-
-  .tl-deaths {
+  .tl-tag {
     display: inline-block;
-    margin-top: 0.5rem;
+    margin-top: 0.45rem;
     font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--accent2);
-    background: rgba(248,81,73,0.1);
-    border: 1px solid rgba(248,81,73,0.25);
-    padding: 0.2rem 0.5rem;
+    font-size: 0.68rem;
+    color: var(--md-red);
+    background: var(--red-lt);
+    border: 1px solid rgba(196,18,48,0.18);
+    padding: 0.16rem 0.48rem;
     border-radius: 3px;
   }
 
-  /* DATA GRID */
+  /* DATA CARDS */
   .data-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 1.4rem;
   }
 
-  @media (max-width: 700px) {
-    .data-grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 680px) { .data-grid { grid-template-columns: 1fr; } }
 
   .data-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 1.5rem;
+    padding: 1.35rem;
+  }
+
+  .full-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.35rem;
+    margin-top: 1.4rem;
   }
 
   .data-card-title {
     font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
     border-bottom: 1px solid var(--border);
   }
 
   /* BAR CHART */
-  .bar-chart { display: flex; flex-direction: column; gap: 0.65rem; }
+  .bar-chart { display: flex; flex-direction: column; gap: 0.55rem; }
 
   .bar-row {
     display: grid;
-    grid-template-columns: 2.5rem 1fr 3.5rem;
+    grid-template-columns: 2.4rem 1fr 2.9rem;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.55rem;
   }
 
-  .bar-year {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--muted);
-    text-align: right;
-  }
+  .bar-year { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); text-align: right; }
 
   .bar-track {
-    height: 20px;
-    background: var(--surface2);
+    height: 17px;
+    background: var(--bg);
+    border: 1px solid var(--border);
     border-radius: 3px;
     overflow: hidden;
-    position: relative;
   }
 
   .bar-fill {
-    height: 100%;
-    border-radius: 3px;
-    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 100%; border-radius: 3px;
+    transition: width 0.9s cubic-bezier(0.16,1,0.3,1);
     width: 0%;
   }
 
-  .bar-fill.danger { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
-  .bar-fill.warn { background: linear-gradient(90deg, var(--gold), var(--gold2)); }
-  .bar-fill.ok { background: linear-gradient(90deg, var(--green), #56d364); }
+  .bar-fill.danger { background: var(--md-red);  opacity: 0.7; }
+  .bar-fill.warn   { background: var(--md-gold); opacity: 0.75; }
+  .bar-fill.ok     { background: var(--green);   opacity: 0.65; }
 
-  .bar-val {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--text);
-    text-align: right;
-  }
+  .bar-val { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--text); text-align: right; }
 
-  /* REDUCTION TABLE */
-  .reduction-list { display: flex; flex-direction: column; gap: 1rem; }
+  /* REDUCTION LIST */
+  .reduction-list { display: flex; flex-direction: column; gap: 0.85rem; }
 
   .reduction-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 1rem;
+    padding-bottom: 0.85rem;
     border-bottom: 1px solid var(--border);
   }
 
   .reduction-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .reduction-label { color: var(--muted); font-size: 0.85rem; }
+  .reduction-pct { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--green); }
 
-  .reduction-label { color: var(--muted); font-size: 0.875rem; }
-
-  .reduction-pct {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.5rem;
-    color: var(--green);
-  }
-
-  /* COMPARISON TABLE */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.875rem;
-  }
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 
   th {
     font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
     text-align: left;
-    padding: 0.5rem 0.75rem;
+    padding: 0.42rem 0.6rem;
     border-bottom: 1px solid var(--border);
     font-weight: 500;
   }
 
   td {
-    padding: 0.65rem 0.75rem;
+    padding: 0.55rem 0.6rem;
     color: var(--text);
-    border-bottom: 1px solid rgba(48,54,61,0.5);
-    vertical-align: middle;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
   tr:last-child td { border-bottom: none; }
-
-  td.mono { font-family: 'DM Mono', monospace; font-size: 0.825rem; }
+  td.mono      { font-family: 'DM Mono', monospace; font-size: 0.8rem; }
   td.highlight { color: var(--green); font-weight: 600; }
-  td.muted { color: var(--muted); }
+  td.muted     { color: var(--muted); }
 
-  /* STATE COMPARISON */
-  .state-compare {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  /* AV TIMELINE */
+  .av-timeline-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.65rem 1.4rem 1.1rem;
+    overflow-x: auto;
   }
 
-  .state-row {
-    display: grid;
-    grid-template-columns: 100px 1fr auto;
-    align-items: start;
-    gap: 1rem;
-    padding: 0.85rem 0;
-    border-bottom: 1px solid rgba(48,54,61,0.5);
-  }
-
-  .state-row:last-child { border-bottom: none; }
-
-  .state-name { color: var(--text); font-weight: 600; font-size: 0.9rem; padding-top: 2px; }
-
-  .state-track {
-    background: var(--surface2);
-    border-radius: 3px;
-    height: 14px;
-    overflow: hidden;
+  .av-year-axis {
     position: relative;
+    height: 22px;
+    margin-bottom: 0.35rem;
+    border-bottom: 1px solid var(--border);
+    margin-left: 88px;
   }
 
-  .state-fill {
-    height: 100%;
-    border-radius: 3px;
-    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    width: 0%;
-  }
-
-  .state-fill.deployed {
-    background: linear-gradient(90deg, var(--green), #56d364);
-  }
-
-  .state-fill.waiting {
-    background: linear-gradient(90deg, var(--accent), #ff9492);
-  }
-
-  .state-detail { color: var(--muted); font-size: 0.75rem; margin-top: 0.3rem; line-height: 1.4; }
+  .av-year-tick {
+    position: absolute;
     font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 3px;
+    font-size: 0.62rem;
+    color: var(--muted);
+    transform: translateX(-50%);
+    white-space: nowrap;
+    bottom: 4px;
+  }
+
+  .av-lanes { display: flex; flex-direction: column; min-width: 540px; }
+
+  .av-lane {
+    display: flex;
+    align-items: center;
+    height: 52px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .av-lane:last-child { border-bottom: none; }
+
+  .av-lane-label {
+    width: 88px;
+    flex-shrink: 0;
+    font-size: 0.81rem;
+    font-weight: 600;
+    color: var(--text);
+    padding-right: 0.65rem;
+    position: relative;
+    z-index: 3;
+    background: var(--surface);
+  }
+
+  .av-lane-label.md-label { color: var(--md-red); }
+
+  .av-lane-track {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    border-left: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .av-bar {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 7px;
+    border-radius: 4px;
+    width: 0;
+    transition: width 0.95s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .av-bar.law-to-now    { background: rgba(46,125,50,0.18); }
+  .av-bar.launch-to-now { background: var(--green); opacity: 0.75; }
+  .av-bar.stalled-bar   {
+    background: repeating-linear-gradient(90deg,
+      var(--md-red) 0, var(--md-red) 5px,
+      transparent 5px, transparent 10px);
+    opacity: 0.4; height: 5px;
+  }
+
+  .av-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    border: 2px solid var(--surface);
+    z-index: 2;
+  }
+
+  .av-marker.law         { background: var(--green); }
+  .av-marker.launch      { background: #1b5e20; box-shadow: 0 0 0 3px rgba(46,125,50,0.18); }
+  .av-marker.stalled-dot { background: var(--md-red); }
+
+  .av-marker-tip {
+    position: absolute;
+    bottom: calc(50% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.56rem;
+    color: var(--muted);
+    white-space: nowrap;
+    line-height: 1.3;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .av-marker-tip.below { bottom: auto; top: calc(50% + 8px); }
+
+  .av-today-line {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: rgba(196,18,48,0.25);
+    z-index: 1;
+  }
+
+  .av-today-label {
+    position: absolute;
+    bottom: calc(100% + 3px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.56rem;
+    color: var(--md-red);
     white-space: nowrap;
   }
 
-  .state-status.deployed {
-    background: rgba(63,185,80,0.1);
-    color: var(--green);
-    border: 1px solid rgba(63,185,80,0.3);
+  .av-legend {
+    display: flex;
+    gap: 1.4rem;
+    margin-top: 0.9rem;
+    flex-wrap: wrap;
+    padding-left: 88px;
   }
 
-  .state-status.waiting {
-    background: rgba(248,81,73,0.1);
-    color: var(--accent2);
-    border: 1px solid rgba(248,81,73,0.3);
-  }
+  .av-legend-item { display: flex; align-items: center; gap: 0.38rem; font-size: 0.72rem; color: var(--muted); }
+
+  .av-legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .av-legend-dot.law    { background: var(--green); }
+  .av-legend-dot.launch { background: #1b5e20; }
+  .av-legend-dot.stalled { background: var(--md-red); }
 
   /* METHODOLOGY */
   .method-box {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 2rem;
+    padding: 1.9rem;
   }
 
-  .method-section { margin-bottom: 2rem; }
+  .method-section { margin-bottom: 1.65rem; }
   .method-section:last-child { margin-bottom: 0; }
 
   .method-section h3 {
     font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--gold2);
-    margin-bottom: 0.75rem;
+    color: var(--md-gold);
+    margin-bottom: 0.6rem;
   }
 
-  .method-section p {
-    color: var(--muted);
-    font-size: 0.875rem;
-    line-height: 1.7;
-  }
-
-  .method-section p a {
-    color: var(--blue);
-    text-decoration: none;
-  }
+  .method-section p { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
+  .method-section p a { color: var(--blue); text-decoration: none; }
   .method-section p a:hover { text-decoration: underline; }
 
   .assumption-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    gap: 0.4rem;
+    margin-top: 0.35rem;
   }
 
   .assumption-list li {
     color: var(--muted);
-    font-size: 0.875rem;
-    padding-left: 1.25rem;
+    font-size: 0.85rem;
+    padding-left: 1.1rem;
     position: relative;
-    line-height: 1.5;
+    line-height: 1.55;
   }
 
-  .assumption-list li::before {
-    content: '·';
-    position: absolute;
-    left: 0.25rem;
-    color: var(--accent);
-  }
+  .assumption-list li::before { content: '·'; position: absolute; left: 0.2rem; color: var(--md-red); }
 
-  .sources-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  .sources-grid { display: flex; flex-direction: column; }
 
   .source-item {
     display: flex;
     align-items: flex-start;
-    gap: 0.75rem;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid rgba(48,54,61,0.5);
-    font-size: 0.8rem;
+    gap: 0.6rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    font-size: 0.77rem;
   }
 
   .source-item:last-child { border-bottom: none; }
-
-  .source-item a {
-    color: var(--blue);
-    text-decoration: none;
-    line-height: 1.5;
-  }
-
+  .source-item a { color: var(--blue); text-decoration: none; line-height: 1.5; }
   .source-item a:hover { text-decoration: underline; }
 
-  .source-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--border);
-    flex-shrink: 0;
-    margin-top: 0.45rem;
-  }
+  .source-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); flex-shrink: 0; margin-top: 0.44rem; }
 
   /* FOOTER */
   footer {
-    border-top: 1px solid var(--border);
+    border-top: 2px solid var(--border);
     padding: 2rem;
     text-align: center;
+    background: var(--surface);
   }
 
-  .footer-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    color: var(--muted);
-    font-size: 0.8rem;
-    line-height: 1.6;
-  }
-
-  .footer-inner a {
-    color: var(--blue);
-    text-decoration: none;
-  }
+  .footer-inner { max-width: 1100px; margin: 0 auto; color: var(--muted); font-size: 0.77rem; line-height: 1.6; }
+  .footer-inner a { color: var(--blue); text-decoration: none; }
 
   .disclaimer {
-    background: var(--surface);
+    background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.5rem;
+    padding: 1rem 1.3rem;
+    margin-bottom: 1.1rem;
     text-align: left;
-    font-size: 0.8rem;
+    font-size: 0.77rem;
     color: var(--muted);
     line-height: 1.6;
   }
 
-  .disclaimer strong { color: var(--gold2); }
-
-  /* Animated pulse on counter */
-  @keyframes pulse {
-    0%, 100% { text-shadow: 0 0 40px rgba(248,81,73,0.2); }
-    50% { text-shadow: 0 0 80px rgba(248,81,73,0.5); }
-  }
-
-  .counter-big { animation: pulse 3s ease-in-out infinite; }
-
-  /* Divider */
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin: 3rem 0;
-  }
-
-  .full-width-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-  }
+  .disclaimer strong { color: var(--md-black); }
 </style>
 </head>
 <body>
 
 <header>
   <div class="header-inner">
-    <div class="state-badge">Maryland General Assembly · 2026 Session</div>
-    <h1>Maryland AV <em>Delay</em> Dashboard</h1>
-    <p class="header-sub">Estimated preventable deaths since Maryland adjourned its 2025 session without acting on AV enabling legislation, a pattern now repeating in 2026 with <strong>SB 909 / HB 1295</strong>.</p>
+    <div class="state-badge">Maryland General Assembly · 2025 &amp; 2026 Sessions</div>
+    <h1>Maryland Autonomous Vehicle <em>Policy</em> Dashboard</h1>
+    <p class="header-sub">An estimate of the road safety benefit that peer-reviewed research suggests Maryland is foregoing without a framework for autonomous vehicle operation. SB 909 and HB 1295 did not advance in the 2026 session, which adjourned April 13, 2026.</p>
   </div>
 </header>
 
 <div class="counter-section">
   <div class="counter-inner">
     <div>
-      <div class="counter-label">Estimated Preventable Deaths Since Apr 7, 2025 (2025 Sine Die)</div>
+      <div class="counter-label">Estimated Preventable Deaths Since Apr 7, 2025</div>
       <div class="counter-big" id="mainCounter">--</div>
       <p class="counter-desc">
-        Based on crash-reduction research and a 1.5% effective VMT-share assumption
-        (<a href="https://doi.org/10.1080/15389588.2024.2380786" target="_blank">Kusano et al.</a>)
-        applied to Maryland's fatality data.
+        Based on peer-reviewed crash-reduction findings and a 1.5% effective VMT-share assumption
+        (<a href="https://doi.org/10.1080/15389588.2024.2380786" target="_blank">Kusano et al.</a>).
+        See methodology for full assumptions and limitations.
       </p>
     </div>
     <div class="counter-right">
       <div class="stat-card">
-        <div class="stat-icon red" style="font-size:0.7rem;letter-spacing:0;font-family:'DM Mono',monospace;color:var(--accent);font-weight:600;">MTD</div>
+        <div class="stat-icon red">YTD</div>
         <div>
           <div class="stat-val" id="totalDeaths">--</div>
-          <div class="stat-desc">Projected Maryland road deaths for 2026</div>
+          <div class="stat-desc">Estimated Maryland road deaths in 2026 so far (Jan 1 to today, projected)</div>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon gold">📅</div>
+        <div class="stat-icon gold">AVs</div>
         <div>
-          <div class="stat-val"><span id="daysSince">--</span> <span>days</span></div>
-          <div class="stat-desc">Days since the 2025 session adjourned without passing AV enabling legislation (Apr 7, 2025)</div>
+          <div class="stat-val">27+</div>
+          <div class="stat-desc">U.S. states that have enacted AV enabling legislation. Maryland is not among them.</div>
         </div>
       </div>
     </div>
@@ -693,236 +657,225 @@
 
 <main>
 
-  <!-- TIMELINE -->
   <section>
-    <h2 class="section-title">The Delay</h2>
-    <p class="section-sub">Maryland's autonomous vehicle regulatory history</p>
+    <h2 class="section-title">Legislative History</h2>
+    <p class="section-sub">Maryland's autonomous vehicle regulatory timeline across two sessions</p>
 
     <div class="timeline">
+
       <div class="tl-item">
-        <div class="tl-dot warn"></div>
+        <div class="tl-dot neutral"></div>
         <div class="tl-year">2017</div>
-        <div class="tl-title">First AV bills die in committee</div>
-        <div class="tl-body">HB 2013 and SB 902, twin bills to establish an AV testing framework, were reported unfavorably by transportation committees. Maryland's first attempt at AV regulation failed.</div>
+        <div class="tl-title">First AV bills introduced; not reported favorably</div>
+        <div class="tl-body">HB 2013 and SB 902, which would have established an AV testing and permitting framework, were reported unfavorably by their respective transportation committees. Maryland's first attempt to establish autonomous vehicle policy did not advance.</div>
       </div>
+
+      <div class="tl-item">
+        <div class="tl-dot neutral"></div>
+        <div class="tl-year">Dec 2020</div>
+        <div class="tl-title">Gov. Hogan releases Maryland CAV Strategic Framework</div>
+        <div class="tl-body">Following five years of work by the MDOT Connected and Automated Vehicles Working Group — established in 2015 — Gov. Hogan releases a statewide strategic framework for AV deployment. The document, developed with input from over 600 stakeholders, identifies five focus areas: public education, planning and policy, early deployment and testing, infrastructure, and workforce development. The framework signals Maryland's intent to welcome AV technology but does not create a statutory deployment pathway.</div>
+      </div>
+
 
       <div class="tl-item">
         <div class="tl-dot warn"></div>
         <div class="tl-year">Feb 7, 2025</div>
-        <div class="tl-title">HB 1256 / SB 949 introduced: AV enabling bills</div>
-        <div class="tl-body">Del. Ziegler introduces HB 1256; Sen. Love cross-files SB 949. Both bills would establish standards and requirements for fully autonomous vehicles on Maryland highways, and prohibit localities from banning them. A hearing is scheduled for February 27.</div>
+        <div class="tl-title">HB 1256 and SB 949 introduced</div>
+        <div class="tl-body">Del. Ziegler introduces HB 1256; Sen. Love cross-files SB 949. Both bills would establish operational standards for fully autonomous vehicles on Maryland highways, including law enforcement interaction protocols, and would ensure consistent statewide standards in place of a potential patchwork of local rules.</div>
       </div>
 
       <div class="tl-item">
         <div class="tl-dot warn"></div>
         <div class="tl-year">Feb 27, 2025</div>
-        <div class="tl-title">HB 1256 heard in committee, then silence</div>
-        <div class="tl-body">The House Environment and Transportation Committee holds a hearing on HB 1256. The bill receives no further action: no vote, no floor consideration. It dies without advancing out of committee. SB 949 meets the same fate in the Senate.</div>
+        <div class="tl-title">House Environment and Transportation Committee holds hearing on HB 1256</div>
+        <div class="tl-body">The committee received public testimony on HB 1256. No further committee action followed. SB 949 was similarly heard but not advanced in the Senate Judicial Proceedings Committee. Neither bill received a floor vote.</div>
       </div>
 
       <div class="tl-item">
-        <div class="tl-dot active"></div>
-        <div class="tl-year">Apr 7, 2025 · Delay Clock Starts</div>
-        <div class="tl-title">2025 session adjourns sine die. HB 1256 / SB 949 dead.</div>
-        <div class="tl-body">The Maryland General Assembly adjourns at midnight. AV enabling legislation that was introduced, heard, and ignored dies with the session. Maryland remains without an AV framework despite having had a clear legislative vehicle to pass one.</div>
-        <div class="tl-deaths">0 estimated preventable deaths. Clock begins.</div>
+        <div class="tl-dot closed"></div>
+        <div class="tl-year">Apr 7, 2025</div>
+        <div class="tl-title">2025 session adjourns sine die. HB 1256 and SB 949 expire.</div>
+        <div class="tl-body">The General Assembly concludes its 90-day session. Both AV enabling bills expire without receiving floor votes in either chamber. Maryland enters the interim period without an autonomous vehicle deployment framework in statute.</div>
+        <div class="tl-tag">Delay clock begins</div>
       </div>
 
       <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">Jan 8, 2026</div>
-        <div class="tl-title">2026 session opens. New bills, same story.</div>
-        <div class="tl-body">SB 909 (Sen. Love) and HB 1295 (Del. Ziegler) are introduced, nearly identical to the bills that died in 2025. More than half of U.S. states have already passed AV enabling frameworks. Maryland has none.</div>
-        <div class="tl-deaths" id="jan2026Deaths">Loading…</div>
+        <div class="tl-dot warn"></div>
+        <div class="tl-year">Jan 14, 2026</div>
+        <div class="tl-title">2026 session convenes. SB 909 and HB 1295 introduced.</div>
+        <div class="tl-body">Sen. Love introduces SB 909 and Del. Ziegler introduces HB 1295, legislation substantially similar to the prior session's bills. The bills would establish AV operational standards, set minimum insurance requirements, require first responder interaction protocols, and apply the Online Data Privacy Act to AV-collected data.</div>
+        <div class="tl-tag" id="jan2026Deaths">Loading...</div>
       </div>
 
       <div class="tl-item">
         <div class="tl-dot warn"></div>
         <div class="tl-year">Mar 4–5, 2026</div>
-        <div class="tl-title">Hearings held. Supporters testify. No vote scheduled.</div>
-        <div class="tl-body">The Judicial Proceedings Committee hears SB 909; the Environment and Transportation Committee hears HB 1295. John Seng of Safe Roads Maryland testifies that driverless services remove the most dangerous element of driving: the human. The R Street Institute submits written support, citing peer-reviewed research showing AVs produce 62% fewer police-reported crashes than human drivers. Multiple safety advocates call on Maryland to join the 27 other states that have already passed AV frameworks. Senators ask technical questions but raise no fundamental objections to the bill's premise.</div>
+        <div class="tl-title">Committee hearings held on SB 909 and HB 1295</div>
+        <div class="tl-body">The Senate Judicial Proceedings Committee and House Environment and Transportation Committee each conducted hearings. John Seng of Safe Roads Maryland testified that autonomous technology addresses the human error that underlies most road fatalities. The R Street Institute submitted written support, citing research associating AVs with 62% fewer police-reported crashes compared to human drivers. Senators raised technical questions regarding implementation but did not express substantive objection to the bills' framework.</div>
       </div>
 
       <div class="tl-item">
-        <div class="tl-dot active"></div>
-        <div class="tl-year">Apr 2026</div>
-        <div class="tl-title">Bills stall. Legislature unlikely to act again.</div>
-        <div class="tl-body">SB 909 and HB 1295 remain stuck in committee. The 2026 session is on track to end without Maryland establishing any AV deployment framework, making this the second consecutive year the legislature has failed to act on bills it held hearings on.</div>
-        <div class="tl-deaths" id="currentDeathsBadge">Loading…</div>
+        <div class="tl-dot warn"></div>
+        <div class="tl-year">Mar 17–23, 2026</div>
+        <div class="tl-title">Bills do not advance past committee reporting and crossover deadlines</div>
+        <div class="tl-body">Under General Assembly practice, bills with legislative support are expected to clear committee by around the 63rd day of session (March 17) and cross to the opposite chamber by approximately the 69th day (March 23). Neither SB 909 nor HB 1295 was reported out of its originating committee by these dates, substantially reducing the likelihood of enactment in the 2026 session.</div>
       </div>
+
+      <div class="tl-item">
+        <div class="tl-dot closed"></div>
+        <div class="tl-year">Apr 13, 2026</div>
+        <div class="tl-title">2026 session adjourns sine die. SB 909 and HB 1295 expire.</div>
+        <div class="tl-body">The 2026 General Assembly session concludes its 90-day calendar. Neither autonomous vehicle bill was brought to a floor vote. Maryland remains without a statutory framework for autonomous vehicle operation. Legislation may be reintroduced when the General Assembly next convenes in January 2027.</div>
+        <div class="tl-tag" id="currentDeathsBadge">Loading...</div>
+      </div>
+
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- DATA -->
   <section>
     <h2 class="section-title">The Data</h2>
-    <p class="section-sub">Waymo's peer-reviewed safety record applied to Maryland</p>
+    <p class="section-sub">Peer-reviewed AV safety research applied to Maryland's traffic record</p>
 
     <div class="data-grid">
-      <!-- Fatalities chart -->
       <div class="data-card">
         <div class="data-card-title">Maryland Traffic Fatalities (2019–2025)</div>
-        <div class="bar-chart" id="barChart">
-          <!-- populated by JS -->
-        </div>
-        <p style="color:var(--muted);font-size:0.75rem;margin-top:1rem;">* 2025: preliminary Gov. Moore data; 2026: projected from 2025 rate</p>
+        <div class="bar-chart" id="barChart"></div>
+        <p style="color:var(--muted);font-size:0.71rem;margin-top:0.85rem;">Source: MDOT Zero Deaths Maryland (2019–2023); Gov. Moore preliminary data (2024–2025)</p>
       </div>
 
-      <!-- Waymo reductions -->
       <div class="data-card">
-        <div class="data-card-title">Waymo Safety Reductions (Peer-Reviewed)</div>
+        <div class="data-card-title">Waymo Safety Findings (Peer-Reviewed)</div>
         <div class="reduction-list">
           <div class="reduction-item">
             <div>
               <div class="reduction-label">Any-injury crash reduction</div>
-              <div style="color:var(--muted);font-size:0.75rem;">vs. human baseline, 7.1M miles</div>
+              <div style="color:var(--muted);font-size:0.71rem;">vs. human baseline, 7.1M miles</div>
             </div>
-            <div class="reduction-pct">−85%</div>
+            <div class="reduction-pct">85%</div>
           </div>
           <div class="reduction-item">
             <div>
               <div class="reduction-label">Pedestrian injury reduction</div>
-              <div style="color:var(--muted);font-size:0.75rem;">Kusano et al. 2024</div>
+              <div style="color:var(--muted);font-size:0.71rem;">Kusano et al. 2024</div>
             </div>
-            <div class="reduction-pct">−92%</div>
+            <div class="reduction-pct">92%</div>
           </div>
           <div class="reduction-item">
             <div>
               <div class="reduction-label">Serious injury crash reduction</div>
-              <div style="color:var(--muted);font-size:0.75rem;">56.7M miles, Kusano et al. 2025</div>
+              <div style="color:var(--muted);font-size:0.71rem;">56.7M miles, Kusano et al. 2025</div>
             </div>
-            <div class="reduction-pct">−85%</div>
+            <div class="reduction-pct">85%</div>
           </div>
           <div class="reduction-item">
-            <div>
-              <div class="reduction-label">Miles analyzed (2025 study)</div>
-            </div>
-            <div style="font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--blue);">56.7M</div>
+            <div><div class="reduction-label">Total miles analyzed (2025 study)</div></div>
+            <div style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--blue);">56.7M</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Applied to Maryland -->
-    <div class="full-width-card" style="margin-top:2rem;">
-      <div class="data-card-title">Applied to Maryland (annual, based on 2024–2025 average)</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;">
+    <div class="full-card">
+      <div class="data-card-title">Applied to Maryland (annual estimate, based on 2024–2025 average)</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1.5rem;">
         <div>
-          <div style="font-family:'DM Serif Display',serif;font-size:2.25rem;color:var(--accent);">~443</div>
-          <div style="color:var(--muted);font-size:0.825rem;">Preventable deaths/year at full AV deployment</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:1.9rem;color:var(--md-red);">~443</div>
+          <div style="color:var(--muted);font-size:0.79rem;margin-top:0.2rem;">Estimated preventable deaths per year at full AV deployment statewide</div>
         </div>
         <div>
-          <div style="font-family:'DM Serif Display',serif;font-size:2.25rem;color:var(--gold2);">~6.6</div>
-          <div style="color:var(--muted);font-size:0.825rem;">Preventable deaths/year at 1.5% effective VMT share</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:1.9rem;color:var(--md-gold);">~6.1</div>
+          <div style="color:var(--muted);font-size:0.79rem;margin-top:0.2rem;">Estimated preventable deaths per year at 1.5% effective VMT share</div>
         </div>
         <div>
-          <div style="font-family:'DM Serif Display',serif;font-size:2.25rem;color:var(--blue);">1.5%</div>
-          <div style="color:var(--muted);font-size:0.825rem;">Assumed effective VMT share: ride-hail VMT (~6.9%) × Waymo SF market penetration (~22%)</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:1.9rem;color:var(--blue);">1.5%</div>
+          <div style="color:var(--muted);font-size:0.79rem;margin-top:0.2rem;">Assumed effective VMT share: ride-hail share (~6.9%) × Waymo SF market penetration (~22%)</div>
         </div>
       </div>
     </div>
 
-    <!-- Ride-hail comparison -->
-    <div class="data-card" style="margin-top:2rem;">
+    <div class="data-card" style="margin-top:1.4rem;">
       <div class="data-card-title">Ride-Hail Safety Comparison</div>
       <table>
         <thead>
-          <tr>
-            <th>Provider</th>
-            <th>Metric</th>
-            <th>Rate</th>
-          </tr>
+          <tr><th>Provider</th><th>Metric</th><th>Rate</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td><strong>Waymo</strong></td>
-            <td class="muted">Serious injuries / million miles</td>
-            <td class="mono highlight">0.02</td>
-          </tr>
-          <tr>
-            <td>Uber</td>
-            <td class="muted">Accidents / million miles</td>
-            <td class="mono">0.45</td>
-          </tr>
-          <tr>
-            <td>Lyft</td>
-            <td class="muted">Accidents / million miles</td>
-            <td class="mono">0.38</td>
-          </tr>
-          <tr>
-            <td>National avg.</td>
-            <td class="muted">Fatalities / 100M VMT</td>
-            <td class="mono">1.35</td>
-          </tr>
+          <tr><td><strong>Waymo</strong></td><td class="muted">Serious injuries / million miles</td><td class="mono highlight">0.02</td></tr>
+          <tr><td>Uber</td><td class="muted">Accidents / million miles</td><td class="mono">0.45</td></tr>
+          <tr><td>Lyft</td><td class="muted">Accidents / million miles</td><td class="mono">0.38</td></tr>
+          <tr><td>National avg.</td><td class="muted">Fatalities / 100M VMT</td><td class="mono">1.35</td></tr>
         </tbody>
       </table>
-      <p style="color:var(--muted);font-size:0.75rem;margin-top:0.75rem;">Methodologies differ across sources. Waymo data uses police-reported incidents; Uber/Lyft figures are self-reported. Direct comparison should be interpreted with caution. Sources: Kusano et al. 2025 · Uber Safety Report 2021–22 · Lyft Safety Report 2021–22 · NHTSA FARS</p>
+      <p style="color:var(--muted);font-size:0.71rem;margin-top:0.7rem;">Methodologies differ across providers. Waymo data uses police-reported incidents matched to location baselines; Uber and Lyft figures are self-reported. These comparisons should be interpreted with appropriate caution. Sources: Kusano et al. 2025 · Uber Safety Report 2021–22 · Lyft Safety Report 2021–22 · NHTSA FARS</p>
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- STATE COMPARISON -->
   <section>
-    <h2 class="section-title">Meanwhile, Elsewhere</h2>
-    <p class="section-sub">States that have established AV frameworks vs. Maryland</p>
+    <h2 class="section-title">State Comparison</h2>
+    <p class="section-sub">When other states enacted AV enabling frameworks and what followed</p>
 
-    <div class="data-card">
-      <div class="data-card-title">State AV Deployment Status</div>
-      <div class="state-compare" id="stateCompare">
-        <!-- populated by JS -->
-      </div>
+    <div class="av-timeline-wrap">
+      <div class="av-year-axis" id="avYearAxis"></div>
+      <div class="av-lanes" id="avLanes"></div>
+    </div>
+
+    <div class="av-legend">
+      <div class="av-legend-item"><span class="av-legend-dot law"></span>AV enabling law enacted</div>
+      <div class="av-legend-item"><span class="av-legend-dot launch"></span>Commercial rides launched</div>
+      <div class="av-legend-item"><span class="av-legend-dot stalled"></span>No framework enacted</div>
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- METHODOLOGY -->
   <section>
-    <h2 class="section-title">Methodology &amp; Sources</h2>
-    <p class="section-sub">Full transparency on data, assumptions, and limitations</p>
+    <h2 class="section-title">Methodology</h2>
+    <p class="section-sub">Data sources, assumptions, and important limitations</p>
 
     <div class="method-box">
       <div class="method-section">
         <h3>How the counter works</h3>
-        <p>The live counter estimates preventable deaths by interpolating Maryland's cumulative traffic fatalities since April 7, 2025 — the moment the 2025 General Assembly adjourned sine die, killing HB 1256 and SB 949 without a vote despite having held hearings on both. Maryland fatality data: 2023 (621 deaths), 2024 (582 deaths), 2025 (480 deaths, preliminary from Gov. Moore's office). The counter runs through the 2025 remainder at the 2025 rate (480/yr) and continues into 2026 at the same projected pace. Deaths are interpolated linearly within each year.</p>
+        <p>The counter estimates the potential safety benefit foregone since April 7, 2025, when the 2025 General Assembly session adjourned without advancing HB 1256 or SB 949. Maryland fatality data used: 2023 (621, MDOT), 2024 (582, Gov. Moore preliminary), 2025 (480, Gov. Moore preliminary). Each year's rate is used to interpolate a daily figure, which is then multiplied by the 85% crash-reduction factor at a 1.5% effective VMT share.</p>
       </div>
 
       <div class="method-section">
         <h3>Estimate methodology</h3>
-        <p>The headline figure applies an 85% any-injury-reported crash reduction to 1.5% of vehicle miles traveled. The 85% comes from <a href="https://doi.org/10.1080/15389588.2024.2380786" target="_blank">Kusano et al. (2024)</a>, which analyzed 7.1M rider-only miles. A subsequent <a href="https://doi.org/10.1080/15389588.2025.2499887" target="_blank">2025 study</a> covering 56.7M miles found 85% fewer suspected serious injury+ crashes. The 1.5% effective VMT share multiplies Maryland ride-hail's estimated share of city-core VMT (~6.9%) by benchmark Waymo rideshare penetration in San Francisco (~22% by end of 2024). Annual preventable deaths = 480 × 0.85 × 0.015 ≈ 6.1/year ≈ 0.0168/day.</p>
+        <p>The headline figure applies an 85% any-injury crash reduction to 1.5% of vehicle miles traveled. The 85% figure is drawn from <a href="https://doi.org/10.1080/15389588.2024.2380786" target="_blank">Kusano et al. (2024)</a>, which analyzed 7.1M Waymo miles. A <a href="https://doi.org/10.1080/15389588.2025.2499887" target="_blank">2025 follow-up study</a> covering 56.7M miles confirmed 85% fewer suspected serious injury crashes. The 1.5% VMT share is derived by multiplying Maryland's estimated ride-hail share of city-core VMT (~6.9%, Fehr &amp; Peers 2019) by Waymo's observed rideshare market share in San Francisco (~22% by end of 2024). Annual estimate: 480 deaths × 0.85 × 0.015 ≈ 6.1 preventable deaths per year.</p>
       </div>
 
       <div class="method-section">
-        <h3>Key assumptions &amp; limitations</h3>
+        <h3>Key assumptions and limitations</h3>
         <ul class="assumption-list">
-          <li>The delay clock starts at the 2025 session sine die (April 7, 2025) — the first moment Maryland definitively failed to act on enabling legislation it had heard in committee. One could start the clock even earlier, at the Feb 27, 2025 committee hearing where HB 1256 stalled.</li>
-          <li>The 85% reduction comes from Kusano et al.'s analysis in Phoenix and San Francisco. Maryland's road conditions and driver behavior differ.</li>
-          <li>Fatality reductions are extrapolated from injury crash data. Fatality-specific reductions may be higher or lower.</li>
-          <li>The 1.5% effective VMT share is speculative — no Waymo service currently operates in Maryland.</li>
-          <li>These figures represent potential lives saved, not certainties. Real-world results depend on deployment specifics.</li>
-          <li>Maryland's 2025 fatality drop (−18%) may reflect improved safety trends independent of AV technology.</li>
-          <li>The delay clock starts at the 2026 session open; one could argue a longer delay going back to prior sessions.</li>
+          <li>The counter begins at the 2025 session sine die (April 7, 2025). A reasonable alternative starting point is the 2026 sine die (April 13, 2026), reflecting only the most recent session's inaction.</li>
+          <li>The 85% crash reduction reflects Waymo's operational experience in Phoenix and San Francisco. Outcomes in Maryland may differ given differences in road conditions, traffic patterns, and urban density.</li>
+          <li>The fatality-specific reduction is extrapolated from injury crash data. The effect on fatal crashes specifically may be higher or lower than the overall injury crash reduction.</li>
+          <li>The 1.5% effective VMT share is a modeled estimate. No AV ride-hail service currently operates in Maryland.</li>
+          <li>These figures represent a modeled potential, not a forecast. Actual outcomes would depend on fleet size, deployment geography, vehicle mix, and operational parameters.</li>
+          <li>Maryland's 2025 fatality decline of approximately 18% may reflect multiple contributing factors and should not be attributed to any single cause.</li>
         </ul>
       </div>
 
       <div class="method-section">
         <h3>Data sources</h3>
         <div class="sources-grid">
-          <div class="source-item"><div class="source-dot"></div><a href="https://zerodeathsmd.gov/resources/crashdata/" target="_blank">Zero Deaths Maryland — crash and fatality data portal (MDOT MVA)</a></div>
-          <div class="source-item"><div class="source-dot"></div><a href="https://governor.maryland.gov/news/press/pages/Governor-Moore-Announces-Maryland-Traffic-Fatalities-Drop-in-2025,-Reaching-Decade-Low-Levels.aspx" target="_blank">Gov. Moore press release — 2025 preliminary fatality data (480 deaths)</a></div>
-          <div class="source-item"><div class="source-dot"></div><a href="https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/hb1256?ys=2025RS" target="_blank">HB 1256 (2025) — Vehicle Laws – Fully Autonomous Vehicles (introduced Feb 7, heard Feb 27, died at sine die Apr 7)</a></div>
-          <div class="source-item"><div class="source-dot"></div><a href="https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/SB0949?ys=2025RS" target="_blank">SB 949 (2025) — Vehicle Laws – Fully Autonomous Vehicles (crossfiled with HB 1256, died at sine die)</a></div>
-          <div class="source-item"><div class="source-dot"></div><a href="https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/HB1295?ys=2026RS" target="_blank">HB 1295 (2026) — Vehicle Laws – Fully Autonomous Vehicles (crossfiled)</a></div>
-          <div class="source-item"><div class="source-dot"></div><a href="https://doi.org/10.1080/15389588.2024.2380786" target="_blank">Kusano et al. (2024) — 85% fewer any-injury-reported crashes over 7.1M Waymo miles</a></div>
-          <div class="source-item"><div class="source-dot"></div><a href="https://doi.org/10.1080/15389588.2025.2499887" target="_blank">Kusano et al. (2025) — 85% fewer serious injury+ crashes over 56.7M Waymo miles</a></div>
-          <div class="source-item"><div class="source-dot"></div><a href="https://www.swissre.com/institute/research/topics-and-risk-dialogues/digital-business-model-and-cyber-risk/autonomous-vehicles-waymo-insurance.html" target="_blank">Swiss Re / Waymo Insurance Study (2024) — zero bodily injury claims vs. human baseline</a></div>
-          <div class="source-item"><div class="source-dot"></div><a href="https://www.prnewswire.com/news-releases/new-study-finds-over-97-of-vehicle-miles-traveled-in-major-us-cities-are-completed-by-personal-and-commercial-vehicles-300896095.html" target="_blank">Fehr & Peers (2019) — ride-hail VMT share study</a></div>
-          <div class="source-item"><div class="source-dot"></div><a href="https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars" target="_blank">NHTSA FARS — national traffic fatality data</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://zerodeathsmd.gov/resources/crashdata/" target="_blank">Zero Deaths Maryland — crash and fatality data (MDOT MVA)</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://governor.maryland.gov/news/press/pages/Governor-Moore-Announces-Maryland-Traffic-Fatalities-Drop-in-2025,-Reaching-Decade-Low-Levels.aspx" target="_blank">Governor Moore — 2025 preliminary fatality data</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/hb1256?ys=2025RS" target="_blank">HB 1256 (2025) — Vehicle Laws: Fully Autonomous Vehicles</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/SB0949?ys=2025RS" target="_blank">SB 949 (2025) — Vehicle Laws: Fully Autonomous Vehicles</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/SB0909?ys=2026RS" target="_blank">SB 909 (2026) — Vehicle Laws: Fully Autonomous Vehicles</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/HB1295?ys=2026RS" target="_blank">HB 1295 (2026) — Vehicle Laws: Fully Autonomous Vehicles</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://doi.org/10.1080/15389588.2024.2380786" target="_blank">Kusano et al. (2024) — 85% fewer any-injury crashes over 7.1M Waymo miles</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://doi.org/10.1080/15389588.2025.2499887" target="_blank">Kusano et al. (2025) — 85% fewer serious injury crashes over 56.7M Waymo miles</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://www.swissre.com/institute/research/topics-and-risk-dialogues/digital-business-model-and-cyber-risk/autonomous-vehicles-waymo-insurance.html" target="_blank">Swiss Re / Waymo Insurance Study (2024)</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://www.prnewswire.com/news-releases/new-study-finds-over-97-of-vehicle-miles-traveled-in-major-us-cities-are-completed-by-personal-and-commercial-vehicles-300896095.html" target="_blank">Fehr &amp; Peers (2019) — ride-hail VMT share study</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars" target="_blank">NHTSA Fatality Analysis Reporting System (FARS)</a></div>
           <div class="source-item"><div class="source-dot"></div><a href="https://www.baltimoresun.com/2026/03/30/maryland-autonomous-vehicles/" target="_blank">Baltimore Sun (Mar 30, 2026) — "Autonomous vehicles can save thousands of lives in Maryland"</a></div>
-          <div class="source-item"><div class="source-dot"></div><a href="https://www.rstreet.org/outreach/r-street-testimony-in-support-of-md-sb-909-authorizing-autonomous-vehicles-in-maryland/" target="_blank">R Street Institute — testimony in support of SB 909 (Mar 2026)</a></div>
+          <div class="source-item"><div class="source-dot"></div><a href="https://www.rstreet.org/outreach/r-street-testimony-in-support-of-md-sb-909-authorizing-autonomous-vehicles-in-maryland/" target="_blank">R Street Institute — testimony in support of SB 909 (March 2026)</a></div>
         </div>
       </div>
     </div>
@@ -933,204 +886,183 @@
 <footer>
   <div class="footer-inner">
     <div class="disclaimer">
-      <strong>Disclaimer:</strong> This dashboard presents estimates based on publicly available data and peer-reviewed research. It is intended to illustrate the potential human cost of regulatory delay, not to predict exact outcomes. The authors advocate for evidence-based autonomous vehicle policy and present this data in good faith to inform public discourse. All sources are linked for independent verification. The 85% crash reduction and 1.5% VMT share are illustrative estimates with significant uncertainty — see methodology above.
+      <strong>Disclaimer:</strong> This dashboard presents modeled estimates based on publicly available data and peer-reviewed research. It is intended as an educational resource to illustrate the potential road safety implications of AV policy decisions, not to predict specific outcomes. All figures carry meaningful uncertainty and should be interpreted accordingly. Sources are linked for independent review.
     </div>
-    Built with public data. All sources cited. &nbsp;·&nbsp; Data from Zero Deaths Maryland, NHTSA FARS, and peer-reviewed research.
+    Built with public data. All sources cited. Data from MDOT Zero Deaths Maryland, NHTSA FARS, and peer-reviewed research.
   </div>
 </footer>
 
 <script>
-  // ── DATA ──────────────────────────────────────────────────────────────────
-  // Maryland fatalities by year
+  // ── DATA ──────────────────────────────────────────────
   const fatalities = {
-    2019: 535,
-    2020: 568,
-    2021: 602,
-    2022: 614,
-    2023: 621,
-    2024: 582,
-    2025: 480,
-    // 2026 projected at 480/year rate
+    2019: 535, 2020: 573, 2021: 563,
+    2022: 566, 2023: 621, 2024: 582, 2025: 480,
   };
 
-  // Delay clock start: Apr 7, 2025 midnight (2025 session sine die — HB 1256 / SB 949 died)
   const DELAY_START = new Date('2025-04-07T23:59:59');
+  const JAN_2026    = new Date('2026-01-14T00:00:00');
+  const RATE_2025   = 480 / 365;
+  const RATE_2026   = 480 / 365;
+  const REDUCTION   = 0.85 * 0.015;
+  const PPD_2025    = 480 * REDUCTION / 365;
+  const PPD_2026    = 480 * REDUCTION / 365;
 
-  // Jan 8 2026 marker for the mid-timeline badge
-  const JAN_2026 = new Date('2026-01-08T00:00:00');
-
-  // Deaths per day by period (linear interpolation within each year)
-  // Apr 7 – Dec 31, 2025: use 2025 rate (480/365)
-  // Jan 1 – present 2026: use 2026 projected rate (480/365, same as 2025)
-  const RATE_2025 = 480 / 365;
-  const RATE_2026 = 480 / 365;
-
-  // Safety reduction: 85% crash reduction applied at 1.5% VMT share
-  const REDUCTION_RATE = 0.85 * 0.015; // 0.01275
-
-  // Preventable deaths per day
-  const PREVENT_PER_DAY_2025 = 480 * REDUCTION_RATE / 365;
-  const PREVENT_PER_DAY_2026 = 480 * REDUCTION_RATE / 365;
-
-  function calcTotalDeathsSinceStart(now) {
-    // Split at Jan 1, 2026
-    const jan1_2026 = new Date('2026-01-01T00:00:00');
-    if (now <= jan1_2026) {
-      return (now - DELAY_START) / 86400000 * RATE_2025;
-    }
-    const days2025 = (jan1_2026 - DELAY_START) / 86400000;
-    const days2026 = (now - jan1_2026) / 86400000;
-    return days2025 * RATE_2025 + days2026 * RATE_2026;
+  function calcYTD(now) {
+    const jan1 = new Date('2026-01-01T00:00:00');
+    if (now <= jan1) return 0;
+    return (now - jan1) / 86400000 * RATE_2026;
   }
 
   function calcPreventable(now) {
-    const jan1_2026 = new Date('2026-01-01T00:00:00');
-    if (now <= jan1_2026) {
-      return (now - DELAY_START) / 86400000 * PREVENT_PER_DAY_2025;
-    }
-    const days2025 = (jan1_2026 - DELAY_START) / 86400000;
-    const days2026 = (now - jan1_2026) / 86400000;
-    return days2025 * PREVENT_PER_DAY_2025 + days2026 * PREVENT_PER_DAY_2026;
+    const jan1 = new Date('2026-01-01T00:00:00');
+    if (now <= jan1) return (now - DELAY_START) / 86400000 * PPD_2025;
+    const d25 = (jan1 - DELAY_START) / 86400000;
+    const d26 = (now - jan1) / 86400000;
+    return d25 * PPD_2025 + d26 * PPD_2026;
   }
 
-  function formatNum(n, decimals = 2) {
-    return n.toFixed(decimals);
-  }
+  function fmt(n, d = 2) { return n.toFixed(d); }
 
   function updateCounters() {
-    const now = new Date();
-    const daysElapsed = (now - DELAY_START) / 86400000;
-    const preventable = calcPreventable(now);
-    const totalDeaths = calcTotalDeathsSinceStart(now);
+    const now  = new Date();
+    const days = (now - DELAY_START) / 86400000;
+    const prev = calcPreventable(now);
+    const ytd  = calcYTD(now);
 
-    document.getElementById('mainCounter').textContent = formatNum(preventable);
-    document.getElementById('totalDeaths').textContent = Math.round(totalDeaths).toLocaleString();
-    document.getElementById('daysSince').textContent = Math.floor(daysElapsed);
+    document.getElementById('mainCounter').textContent  = fmt(prev);
+    document.getElementById('totalDeaths').textContent  = Math.round(ytd).toLocaleString();
 
-    // Current deaths badge at bottom of timeline
-    const badge = document.getElementById('currentDeathsBadge');
-    if (badge) {
-      badge.textContent = formatNum(preventable) + ' estimated preventable deaths since Apr 7, 2025 — and counting';
-    }
+    const b1 = document.getElementById('currentDeathsBadge');
+    if (b1) b1.textContent = fmt(prev) + ' estimated preventable deaths since Apr 7, 2025';
 
-    // Jan 2026 midpoint badge
-    const jan2026badge = document.getElementById('jan2026Deaths');
-    if (jan2026badge) {
-      const preventAtJan = calcPreventable(JAN_2026);
-      jan2026badge.textContent = formatNum(preventAtJan) + ' estimated preventable deaths at 2026 session open';
-    }
+    const b2 = document.getElementById('jan2026Deaths');
+    if (b2) b2.textContent = fmt(calcPreventable(JAN_2026)) + ' est. preventable deaths at 2026 session open';
   }
 
-  // ── BAR CHART ──────────────────────────────────────────────────────────────
+  // ── BAR CHART ──────────────────────────────────────────
   function buildBarChart() {
     const chart = document.getElementById('barChart');
     const years = [2019, 2020, 2021, 2022, 2023, 2024, 2025];
-    const maxVal = Math.max(...years.map(y => fatalities[y]));
+    const max   = Math.max(...years.map(y => fatalities[y]));
 
-    years.forEach((year, i) => {
-      const val = fatalities[year];
-      const pct = (val / maxVal) * 100;
-      let colorClass = 'danger';
-      if (val <= 500) colorClass = 'ok';
-      else if (val <= 575) colorClass = 'warn';
-
+    years.forEach(yr => {
+      const v   = fatalities[yr];
+      const pct = (v / max * 100);
+      const cls = v <= 500 ? 'ok' : v <= 575 ? 'warn' : 'danger';
       const row = document.createElement('div');
       row.className = 'bar-row';
-      row.innerHTML = `
-        <div class="bar-year">${year}</div>
-        <div class="bar-track">
-          <div class="bar-fill ${colorClass}" data-pct="${pct}" style="width:0%"></div>
-        </div>
-        <div class="bar-val">${val}</div>
-      `;
+      row.innerHTML = `<div class="bar-year">${yr}</div>
+        <div class="bar-track"><div class="bar-fill ${cls}" data-pct="${pct}" style="width:0%"></div></div>
+        <div class="bar-val">${v}</div>`;
       chart.appendChild(row);
     });
 
-    // Animate bars
     setTimeout(() => {
-      chart.querySelectorAll('.bar-fill').forEach(fill => {
-        const pct = fill.dataset.pct;
-        fill.style.width = pct + '%';
-      });
+      chart.querySelectorAll('.bar-fill').forEach(f => { f.style.width = f.dataset.pct + '%'; });
     }, 200);
   }
 
-  // ── STATE COMPARE ─────────────────────────────────────────────────────────
-  function buildStateCompare() {
+  // ── AV TIMELINE ────────────────────────────────────────
+  function buildAVTimeline() {
+    const START = 2017, END = 2027, SPAN = END - START;
+    // Apr 13 2026 = session end (day 103 of 2026)
+    const SESSION_END = 2026 + 103 / 365;
+
     const states = [
-      {
-        name: 'Arizona',
-        status: 'deployed',
-        since: 2018,
-        detail: 'Waymo launched fully driverless commercial rides in Chandler in 2018. The Phoenix metro area now has hundreds of Waymo vehicles running 24/7 with no safety driver.'
-      },
-      {
-        name: 'California',
-        status: 'deployed',
-        since: 2022,
-        detail: 'Waymo began fully driverless paid rides in San Francisco in 2022. By late 2024, Waymo held roughly 22% of the San Francisco rideshare market. LA launched in 2024.'
-      },
-      {
-        name: 'Texas',
-        status: 'deployed',
-        since: 2023,
-        detail: 'Waymo launched in Austin in 2023 under Texas\' permissive AV statute, which requires no special permit beyond standard vehicle registration. Rides are fully driverless.'
-      },
-      {
-        name: 'Georgia',
-        status: 'deployed',
-        since: 2024,
-        detail: 'Waymo expanded to Atlanta in 2024. Georgia passed AV enabling legislation in 2019 and has since welcomed commercial deployment with no reported safety incidents prompting regulatory rollback.'
-      },
-      {
-        name: 'Virginia',
-        status: 'deployed',
-        since: 2019,
-        detail: 'Virginia enacted AV enabling legislation in 2019, authorizing fully autonomous vehicle operation on public roads statewide. Testing and limited commercial operations have followed.'
-      },
-      {
-        name: 'Maryland',
-        status: 'waiting',
-        since: null,
-        detail: 'SB 909 and HB 1295 passed committee hearings in March 2026 with no opposing votes recorded, then stalled. The 2025 predecessors, HB 1256 and SB 949, met the same fate.'
-      },
+      { name: 'Arizona',    law: 2012,    launch: 2018.75, lawLabel: 'AV law',  launchLabel: 'Waymo One\ncommercial' },
+      { name: 'California', law: 2012.75, launch: 2022.5,  lawLabel: 'AV law',  launchLabel: 'Waymo SF\ndriverless' },
+      { name: 'Texas',      law: 2017.5,  launch: 2023.5,  lawLabel: 'HB 1791', launchLabel: 'Waymo\nAustin' },
+      { name: 'Georgia',    law: 2019.5,  launch: 2024.75, lawLabel: 'SB 219',  launchLabel: 'Waymo\nAtlanta' },
+      { name: 'Virginia',   law: 2019.25, launch: null,     lawLabel: 'HB 2282', launchLabel: null },
+      { name: 'Maryland',   law: null,    launch: null,     stalled: 2025.27, stalledLabel: 'HB 1256 / SB 949\nexpire at sine die', isMD: true },
     ];
 
-    const container = document.getElementById('stateCompare');
-    const maxYears = 8;
+    function pct(yr) { return ((yr - START) / SPAN * 100).toFixed(3) + '%'; }
 
-    states.forEach(s => {
-      const years = s.since ? (2026 - s.since) : 0;
-      const pct = Math.min((years / maxYears) * 100, 100);
+    const axis = document.getElementById('avYearAxis');
+    for (let y = START + 1; y < END; y++) {
+      const t = document.createElement('div');
+      t.className = 'av-year-tick';
+      t.style.left = pct(y);
+      t.textContent = y;
+      axis.appendChild(t);
+    }
 
-      const row = document.createElement('div');
-      row.className = 'state-row';
-      row.innerHTML = `
-        <div class="state-name">${s.name}</div>
-        <div>
-          <div class="state-track">
-            <div class="state-fill ${s.status}" data-pct="${pct}" style="width:0%"></div>
-          </div>
-          <div class="state-detail">${s.detail}</div>
-        </div>
-        <div class="state-status ${s.status}">${s.status === 'deployed' ? '✓ active' : '✗ no law'}</div>
-      `;
-      container.appendChild(row);
+    const lanesEl = document.getElementById('avLanes');
+
+    states.forEach((s, idx) => {
+      const lane = document.createElement('div');
+      lane.className = 'av-lane';
+
+      const lbl = document.createElement('div');
+      lbl.className = 'av-lane-label' + (s.isMD ? ' md-label' : '');
+      lbl.textContent = s.name;
+      lane.appendChild(lbl);
+
+      const track = document.createElement('div');
+      track.className = 'av-lane-track';
+
+      // Vertical line at session end / reference date
+      const tl = document.createElement('div');
+      tl.className = 'av-today-line';
+      tl.style.left = pct(SESSION_END);
+      if (idx === 0) {
+        const tll = document.createElement('div');
+        tll.className = 'av-today-label';
+        tll.textContent = 'Apr 13, 2026';
+        tl.appendChild(tll);
+      }
+      track.appendChild(tl);
+
+      function mkBar(from, to, cls) {
+        const b = document.createElement('div');
+        b.className = 'av-bar ' + cls;
+        b.style.left = pct(from);
+        b.dataset.tw = ((to - from) / SPAN * 100).toFixed(3) + '%';
+        track.appendChild(b);
+      }
+
+      function mkMarker(yr, cls, tip, above) {
+        const m = document.createElement('div');
+        m.className = 'av-marker ' + cls;
+        m.style.left = pct(yr);
+        if (tip) {
+          const t = document.createElement('div');
+          t.className = 'av-marker-tip' + (above ? '' : ' below');
+          t.textContent = tip;
+          m.appendChild(t);
+        }
+        track.appendChild(m);
+      }
+
+      if (s.stalled) {
+        mkBar(s.stalled, SESSION_END, 'stalled-bar');
+        mkMarker(s.stalled,    'stalled-dot', s.stalledLabel, false);
+        mkMarker(SESSION_END,  'stalled-dot', 'SB 909 / HB 1295\nexpire', true);
+      } else {
+        if (s.law) {
+          mkBar(s.law, s.launch || SESSION_END, 'law-to-now');
+          mkMarker(s.law, 'law', s.lawLabel, true);
+        }
+        if (s.launch) {
+          mkBar(s.launch, SESSION_END, 'launch-to-now');
+          mkMarker(s.launch, 'launch', s.launchLabel, false);
+        }
+      }
+
+      lane.appendChild(track);
+      lanesEl.appendChild(lane);
     });
 
     setTimeout(() => {
-      container.querySelectorAll('.state-fill').forEach(fill => {
-        fill.style.width = fill.dataset.pct + '%';
-      });
-    }, 300);
+      lanesEl.querySelectorAll('.av-bar').forEach(b => { b.style.width = b.dataset.tw; });
+    }, 250);
   }
 
-  // ── INIT ──────────────────────────────────────────────────────────────────
   updateCounters();
   setInterval(updateCounters, 100);
   buildBarChart();
-  buildStateCompare();
+  buildAVTimeline();
 </script>
-
 </body>
 </html>
